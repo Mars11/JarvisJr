@@ -29,6 +29,10 @@ public class TheActivity extends Activity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (getPackageManager().getLaunchIntentForPackage("me.arthurtucker.jarvisjrkey") != null) {
+            //"do stuff"
+        }
+
         Prefs.startPrefs(this);
         setContentView(R.layout.activity_layout);
         TheFragment.updateSwitches();
