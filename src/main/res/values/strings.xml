@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Jarvis Jr.</string>
+    <string name="app_name_short">JJ</string>
+    <string name="action_settings">Settings</string>
+    <!-- Default text for a button that can be toggled on and off. -->
+    <string name="capital_on">ON</string>
+    <!-- Default text for a button that can be toggled on and off. -->
+    <string name="capital_off">OFF</string>
+
+    <!--Preferences-->
+    <string name="app_cat">App Settings</string>
+    <string name="example_play_title">Play an example</string>
+    <string name="app_hq_title">Use high quality voice?</string>
+    <string name="app_hq_sum">Error</string>
+    <string-array name="app_hq_entries">
+        <item>Never use</item>
+        <item>Only on Wi-Fi</item>
+        <item>Always use</item>
+    </string-array>
+    <string-array name="app_hq_entry_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+    <string name="app_engine_title">Choose Voice</string>
+    <string name="app_reset_title">Reset?</string>
+    <string name="app_reset_sum">Clear all your changes?</string>
+
+    <string name="texts_cat">Text Settings</string>
+    <string name="texts_speak_title">Say Texts?</string>
+    <string name="texts_speak_sum">When this is on, Jarvis speaks all or part of the text you receive.</string>
+    <string name="texts_sender_title">Say Sender?</string>
+    <string name="texts_sender_sum">When this is on, Jarvis tells you who sent the text.</string>
+    <string name="texts_body_title">Say Body?</string>
+    <string name="texts_body_sum">When this is on, Jarvis tells you the body of the text you received.</string>
+
+    <string name="battery_cat">Battery Settings</string>
+    <string name="battery_full_title">Say Charged?</string>
+    <string name="battery_full_sum">When this is on, Jarvis tells you when the battery finished charging.</string>
+
+</resources>

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        package="me.arthurtucker.jarvisjr"
+        android:versionCode="12"
+        android:versionName="1.2">
+
+    <uses-sdk
+            android:minSdkVersion="14"
+            android:targetSdkVersion="18"/>
+    <uses-feature
+            android:name="android.hardware.telephony"
+            android:required="true"/>
+
+    <uses-permission android:name="com.android.vending.BILLING" />
+    <uses-permission android:name="android.permission.RECEIVE_SMS" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
+
+
+    <application
+            android:allowBackup="true"
+            android:icon="@drawable/ic_launcher"
+            android:logo="@drawable/ic_logo_jr"
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme">
+        <activity
+            android:name="com.google.ads.AdActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize">
+        </activity>
+        <activity
+            android:name="me.arthurtucker.jarvisjr.TheActivity"
+            android:label="@string/app_name">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
+        <receiver
+            android:enabled="true"
+            android:name="me.arthurtucker.jarvisjr.receiver.SMSReceiver">
+            <intent-filter>
+                <action android:name="android.provider.Telephony.SMS_RECEIVED"/>
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:enabled="true"
+            android:name="me.arthurtucker.jarvisjr.receiver.PlugInReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.ACTION_POWER_CONNECTED"/>
+            </intent-filter>
+        </receiver>
+        <receiver
+                android:enabled="true"
+                android:name="me.arthurtucker.jarvisjr.receiver.UnPlugReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.ACTION_POWER_DISCONNECTED"/>
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:enabled="true"
+            android:name="me.arthurtucker.jarvisjr.receiver.BatteryReceiver"/>
+        <service
+            android:enabled="true"
+            android:name="me.arthurtucker.jarvisjr.utils.PowerService"/>
+        <service
+            android:enabled="true"
+            android:name="me.arthurtucker.jarvisjr.utils.SpeechService"/>
+    </application>
+
+</manifest>
