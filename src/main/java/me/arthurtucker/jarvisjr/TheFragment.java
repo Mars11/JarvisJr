@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.DialogFragment;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.preference.ListPreference;
 import android.preference.Preference;
@@ -53,9 +54,12 @@ public class TheFragment extends PreferenceFragment implements Preference.OnPref
         assert abSpace != null;
         abSpace.setLayoutResource(R.layout.settings);
 
-        //mDonate = findPreference("donate");
-        //assert mDonate != null;
-        //mDonate.setOnPreferenceClickListener(this);
+        mDonate = findPreference("donate");
+        assert mDonate != null;
+        mDonate.setOnPreferenceClickListener(this);
+        if (Global.hasDonated) {
+            mDonate.setSummary("Thanks for donating!");
+        }
         mPlayExample        = root.findPreference("exampleplay");
         assert mPlayExample != null;
         mPlayExample.setOnPreferenceClickListener(this);
@@ -193,7 +197,9 @@ public class TheFragment extends PreferenceFragment implements Preference.OnPref
             mEndTimePick.show(getFragmentManager(), "endpickdialog");
         }
         if (preference.equals(mDonate)) {
-            //open donate dialog
+            Intent intent = new Intent(Intent.ACTION_VIEW);
+            intent.setData(Uri.parse("market://details?id=me.arthurtucker.jarvisjrdonationkey"));
+            startActivity(intent);
         }
         return true;
     }
