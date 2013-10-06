@@ -1,4 +1,4 @@
-package me.arthurtucker.jarvisjr.utils;
+package me.arthurtucker.jarvisjr.service;
 
 import android.app.Service;
 import android.content.Context;
@@ -17,6 +17,7 @@ import java.util.HashMap;
 import java.util.Locale;
 
 import me.arthurtucker.jarvisjr.TheActivity;
+import me.arthurtucker.jarvisjr.utils.Global;
 
 /**
  * Created by Arthur on 7/24/13.

@@ -1,4 +1,4 @@
-package me.arthurtucker.jarvisjr.utils;
+package me.arthurtucker.jarvisjr.service;
 
 import android.app.Service;
 import android.content.BroadcastReceiver;

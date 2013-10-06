@@ -14,8 +14,8 @@ import android.preference.SwitchPreference;
 import android.text.format.DateFormat;
 import android.util.Log;
 
+import me.arthurtucker.jarvisjr.service.SpeechService;
 import me.arthurtucker.jarvisjr.utils.Global;
-import me.arthurtucker.jarvisjr.utils.SpeechService;
 
 import static java.lang.Math.abs;
 

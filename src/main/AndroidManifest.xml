@@ -2,8 +2,8 @@
 <manifest
         xmlns:android="http://schemas.android.com/apk/res/android"
         package="me.arthurtucker.jarvisjr"
-        android:versionCode="12"
-        android:versionName="1.2">
+        android:versionCode="14"
+        android:versionName="1.3b">
 
     <uses-sdk
             android:minSdkVersion="14"
@@ -12,7 +12,6 @@
             android:name="android.hardware.telephony"
             android:required="true"/>
 
-    <uses-permission android:name="com.android.vending.BILLING" />
     <uses-permission android:name="android.permission.RECEIVE_SMS" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -63,10 +62,17 @@
             android:name="me.arthurtucker.jarvisjr.receiver.BatteryReceiver"/>
         <service
             android:enabled="true"
-            android:name="me.arthurtucker.jarvisjr.utils.PowerService"/>
+            android:name=".service.PowerService"/>
         <service
             android:enabled="true"
-            android:name="me.arthurtucker.jarvisjr.utils.SpeechService"/>
+            android:name=".service.SpeechService"/>
+        <!--<service
+            android:name="me.arthurtucker.jarvisjr.receiver.NotificationListener"
+            android:permission="android.permission.BIND_NOTIFICATION_LISTENER_SERVICE">
+            <intent-filter>
+                <action android:name="android.service.notification.NotificationListenerService" />
+            </intent-filter>
+        </service>-->
     </application>
 
 </manifest>
