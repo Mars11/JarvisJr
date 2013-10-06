@@ -22,7 +22,7 @@ public class Prefs {
     }
 
     public static void syncPrefs() {
-        Global.setHasDonated(mPrefs.getBoolean("hasdonated", false));
+        //Global.setHasDonated(mPrefs.getBoolean("hasdonated", false));
 
         Global.setmEnabled(mPrefs.getBoolean("controlsEnabled", false));
         Global.setmHQVoice(mPrefs.getString("voicequality", "0"));
@@ -45,7 +45,7 @@ public class Prefs {
     public static void pushPrefs() {
         Log.d(TAG, "Prefs running updatePrefs()");
         mPrefsEditor = mPrefs.edit();
-        mPrefsEditor.putBoolean("hasdonated", Global.hasDonated);
+        //mPrefsEditor.putBoolean("hasdonated", Global.hasDonated);
         mPrefsEditor.putBoolean("controlsEnabled", Global.mEnabled);
         mPrefsEditor.putInt("quietstarth", Global.quietStartH);
         mPrefsEditor.putInt("quietstartm", Global.quietStartM);
