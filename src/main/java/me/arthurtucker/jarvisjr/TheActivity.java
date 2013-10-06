@@ -2,6 +2,8 @@ package me.arthurtucker.jarvisjr;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.widget.CompoundButton;
@@ -29,8 +31,11 @@ public class TheActivity extends Activity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getPackageManager().getLaunchIntentForPackage("me.arthurtucker.jarvisjrkey") != null) {
-            //"do stuff"
+
+        PackageManager pkgMngr = this.getPackageManager();
+        assert pkgMngr != null;
+        if (pkgMngr.checkSignatures("me.arthurtucker.jarvisjr", "me.arthurtucker.jarvisjrdonationkey") == PackageManager.SIGNATURE_MATCH) {
+            Global.setHasDonated(true);
         }
 
         Prefs.startPrefs(this);
@@ -48,7 +53,7 @@ public class TheActivity extends Activity
         final int padding = getResources().getDimensionPixelSize(R.dimen.action_bar_switch_padding);
         mActionBarSwitch.setPadding(0, 0, padding, 0);
         // Jelly Bean and up get custom switch
-        if (android.os.Build.VERSION.SDK_INT >= 16) {
+        if (Build.VERSION.SDK_INT >= 16) {
             mActionBarSwitch.setThumbResource(R.drawable.switch_inner);
             mActionBarSwitch.setTrackResource(R.drawable.switch_track);
         }
@@ -69,22 +74,28 @@ public class TheActivity extends Activity
          * Switch made
          */
 
-        // Create the adView
-        adView = new AdView(this, AdSize.SMART_BANNER, "a151f83af4d6472");
+        if (Global.hasDonated) {
+            makeToast("Thanks for donating!", false);
+        } else {
+            // Create the adView
+            adView = new AdView(this, AdSize.SMART_BANNER, "a151f83af4d6472");
 
-        adView.setGravity(Gravity.CENTER_HORIZONTAL);
-        LinearLayout layout = (LinearLayout) findViewById(R.id.mainLayout);
-        // Add the adView to it
-        layout.addView(adView);
+            adView.setGravity(Gravity.CENTER_HORIZONTAL);
+            LinearLayout layout = (LinearLayout) findViewById(R.id.mainLayout);
+            // Add the adView to it
+            layout.addView(adView);
+        }
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        AdRequest request = new AdRequest();
-        request.addTestDevice(AdRequest.TEST_EMULATOR);
-        request.addTestDevice("738A7A857DB379FD6814583956ADE5A6");    // My Galaxy Nexus
-        adView.loadAd(request);
+        if (!Global.hasDonated) {
+            AdRequest request = new AdRequest();
+            request.addTestDevice(AdRequest.TEST_EMULATOR);
+            request.addTestDevice("738A7A857DB379FD6814583956ADE5A6");    // My Galaxy Nexus
+            adView.loadAd(request);
+        }
     }
 
     public void makeToast(String says, Boolean isLong) {

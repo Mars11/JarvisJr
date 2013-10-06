@@ -7,9 +7,9 @@ import android.os.Bundle;
 import android.telephony.SmsMessage;
 import android.util.Log;
 
+import me.arthurtucker.jarvisjr.service.SpeechService;
 import me.arthurtucker.jarvisjr.utils.Global;
 import me.arthurtucker.jarvisjr.utils.Prefs;
-import me.arthurtucker.jarvisjr.utils.SpeechService;
 
 /**
  * Created by Arthur on 7/28/13.

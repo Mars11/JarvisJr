@@ -7,9 +7,9 @@ import android.content.SharedPreferences;
 import android.os.BatteryManager;
 import android.util.Log;
 
+import me.arthurtucker.jarvisjr.service.SpeechService;
 import me.arthurtucker.jarvisjr.utils.Global;
 import me.arthurtucker.jarvisjr.utils.Prefs;
-import me.arthurtucker.jarvisjr.utils.SpeechService;
 
 /**
  * Created by Arthur on 8/1/13.

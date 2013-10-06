@@ -18,10 +18,10 @@
 
     <Preference android:key="space"/>
     <PreferenceCategory android:title="@string/app_cat">
-        <!--<Preference-->
-            <!--android:title="Donate"-->
-            <!--android:summary="Unlocks all features."-->
-            <!--android:key="donate"/>-->
+        <Preference
+            android:title="Donate"
+            android:summary="Disable Ads"
+            android:key="donate"/>
         <Preference android:key="exampleplay"
             android:title="@string/example_play_title"/>
     </PreferenceCategory>

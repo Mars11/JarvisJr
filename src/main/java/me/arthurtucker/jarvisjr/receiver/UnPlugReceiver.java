@@ -5,8 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 
+import me.arthurtucker.jarvisjr.service.PowerService;
 import me.arthurtucker.jarvisjr.utils.Global;
-import me.arthurtucker.jarvisjr.utils.PowerService;
 import me.arthurtucker.jarvisjr.utils.Prefs;
 
 /**
