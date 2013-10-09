@@ -118,8 +118,8 @@ public class TheFragment extends PreferenceFragment implements Preference.OnPref
     public boolean onPreferenceChange(Preference preference, Object newValue) {
         // Quiet Time Settings
         if (preference.equals(mQuietEnabled)) {
-            Global.setQuietEnabled((Boolean) newValue);
-            PreferenceGroup group = (PreferenceGroup) findPreference("quiet");
+            Global.quietEnabled     = ((Boolean) newValue);
+            PreferenceGroup group   = (PreferenceGroup) findPreference("quiet");
             assert group != null;
             if (Global.quietEnabled) {
                 group.addPreference(mStartQuietDialog);
@@ -131,8 +131,8 @@ public class TheFragment extends PreferenceFragment implements Preference.OnPref
         }
         // Text Settings
         if (preference.equals(mTextEnableSwitch)) {
-            Global.setTextEnabled((Boolean) newValue);
-            PreferenceGroup group = (PreferenceGroup) findPreference("text");
+            Global.textEnabled      = ((Boolean) newValue);
+            PreferenceGroup group   = (PreferenceGroup) findPreference("text");
             assert group != null;
             if (Global.textEnabled) {
                 Log.d(TAG, "Adding preferences");
@@ -145,18 +145,18 @@ public class TheFragment extends PreferenceFragment implements Preference.OnPref
             }
         }
         if (preference.equals(mTextSenderSwitch)) {
-            Global.setTextSenderEnabled((Boolean) newValue);
+            Global.textSenderEnabled = ((Boolean) newValue);
         }
         if (preference.equals(mTextBodySwitch)) {
-            Global.setTextBodyEnabled((Boolean) newValue);
+            Global.textBodyEnabled = ((Boolean) newValue);
         }
         //  Battery Settings
         if (preference.equals(mBatteryFullSwitch)) {
-            Global.setBatteryFullEnabled((Boolean) newValue);
+            Global.batteryFullEnabled = ((Boolean) newValue);
         }
         // Voice settings
         if (preference.equals(mHQVoiceList)) {
-            Global.setmHQVoice((String) newValue);
+            Global.mVoiceQuality = ((String) newValue);
             mHQVoiceList.setSummary(getResources().getStringArray(R.array.app_hq_entries)[Integer.parseInt(Global.mVoiceQuality)]);
         }
         return true;

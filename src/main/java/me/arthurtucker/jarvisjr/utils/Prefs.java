@@ -22,24 +22,22 @@ public class Prefs {
     }
 
     public static void syncPrefs() {
-        //Global.setHasDonated(mPrefs.getBoolean("hasdonated", false));
+        Global.mEnabled         = mPrefs.getBoolean("controlsEnabled", false);
+        Global.mVoiceQuality    = mPrefs.getString("voicequality", "0");
 
-        Global.setmEnabled(mPrefs.getBoolean("controlsEnabled", false));
-        Global.setmHQVoice(mPrefs.getString("voicequality", "0"));
+        Global.quietEnabled     = mPrefs.getBoolean("quietenable", false);
+        Global.quietStartH      = mPrefs.getInt("quietstarth", 0);
+        Global.quietStartM      = mPrefs.getInt("quietstartm", 0);
+        Global.startEnabled     = mPrefs.getBoolean("quiettimestartenabled", false);
+        Global.quietStopH       = mPrefs.getInt("quietendh", 0);
+        Global.quietStopM       = mPrefs.getInt("quietendm", 0);
+        Global.endEnabled       = mPrefs.getBoolean("quiettimeendenabled", false);
 
-        Global.setQuietEnabled(mPrefs.getBoolean("quietenable", false));
-        Global.setQuietStartH(mPrefs.getInt("quietstarth", 0));
-        Global.setQuietStartM(mPrefs.getInt("quietstartm", 0));
-        Global.setStartEnabled(mPrefs.getBoolean("quiettimestartenabled", false));
-        Global.setQuietStopH(mPrefs.getInt("quietendh", 0));
-        Global.setQuietStopM(mPrefs.getInt("quietendm", 0));
-        Global.setEndEnabled(mPrefs.getBoolean("quiettimeendenabled", false));
+        Global.textEnabled      = mPrefs.getBoolean("textenable", false);
+        Global.textSenderEnabled=mPrefs.getBoolean("textsenderenable", false);
+        Global.textBodyEnabled  =mPrefs.getBoolean("textbodyenable", false);
 
-        Global.setTextEnabled(mPrefs.getBoolean("textenable", false));
-        Global.setTextSenderEnabled(mPrefs.getBoolean("textsenderenable", false));
-        Global.setTextBodyEnabled(mPrefs.getBoolean("textbodyenable", false));
-
-        Global.setBatteryFullEnabled(mPrefs.getBoolean("batteryfull", false));
+        Global.batteryFullEnabled=mPrefs.getBoolean("batteryfull", false);
     }
 
     public static void pushPrefs() {

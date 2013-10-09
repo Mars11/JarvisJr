@@ -27,8 +27,8 @@ public class BatteryReceiver extends BroadcastReceiver {
         SharedPreferences.Editor mPrefsEditor = mPrefs.edit();
 
         Boolean saidCharged = mPrefs.getBoolean("saidCharged", false);
-        int status = intent.getIntExtra(BatteryManager.EXTRA_STATUS, -1);
-        Global.setisCharged(status == BatteryManager.BATTERY_STATUS_FULL);
+        int status          = intent.getIntExtra(BatteryManager.EXTRA_STATUS, -1);
+        Global.isCharged    = (status == BatteryManager.BATTERY_STATUS_FULL);
         if (Global.batteryFullEnabled && Global.isCharged && !saidCharged) {
             Log.i(TAG, "Battery charged");
             Prefs.startPrefs(context);

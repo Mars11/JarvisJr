@@ -35,7 +35,7 @@ public class TheActivity extends Activity
         PackageManager pkgMngr = this.getPackageManager();
         assert pkgMngr != null;
         if (pkgMngr.checkSignatures("me.arthurtucker.jarvisjr", "me.arthurtucker.jarvisjrdonationkey") == PackageManager.SIGNATURE_MATCH) {
-            Global.setHasDonated(true);
+            Global.hasDonated = true;
         }
 
         Prefs.startPrefs(this);
@@ -105,7 +105,7 @@ public class TheActivity extends Activity
     @Override
     public void onCheckedChanged(CompoundButton compoundButton, boolean bool) {
         if (compoundButton.equals(mActionBarSwitch)) {
-            Global.setmEnabled(bool);       //updating global var
+            Global.mEnabled = bool;       //updating global var
             Prefs.pushPrefs();            //update prefs
             TheFragment.updateSwitches();   //enable/disable switches
             makeToast((bool ? "Voice enabled" : "Voice disabled"), false);

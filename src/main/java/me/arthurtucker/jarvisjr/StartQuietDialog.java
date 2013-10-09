@@ -41,9 +41,9 @@ public class StartQuietDialog extends DialogFragment implements TimePickerDialog
 
     @Override
     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-        Global.setStartEnabled(true);
-        Global.setQuietStartH(hourOfDay);
-        Global.setQuietStartM(minute);
+        Global.startEnabled     = true;
+        Global.quietStartH      = hourOfDay;
+        Global.quietStartM      = minute;
         TheFragment.updateStartSummary(getActivity());
         Prefs.pushPrefs();
     }

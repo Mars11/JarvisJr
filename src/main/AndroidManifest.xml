@@ -24,50 +24,49 @@
             android:logo="@drawable/ic_logo_jr"
             android:label="@string/app_name"
             android:theme="@style/AppTheme">
+
+        <!-- Activities -->
         <activity
             android:name="com.google.ads.AdActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize">
         </activity>
-        <activity
-            android:name="me.arthurtucker.jarvisjr.TheActivity"
+        <activity android:name=".TheActivity"
             android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <receiver
-            android:enabled="true"
-            android:name="me.arthurtucker.jarvisjr.receiver.SMSReceiver">
+
+        <!-- Receivers -->
+        <receiver android:name=".receiver.SMSReceiver"
+            android:enabled="true">
             <intent-filter>
                 <action android:name="android.provider.Telephony.SMS_RECEIVED"/>
             </intent-filter>
         </receiver>
-        <receiver
-            android:enabled="true"
-            android:name="me.arthurtucker.jarvisjr.receiver.PlugInReceiver">
+        <receiver android:name=".receiver.PlugInReceiver"
+            android:enabled="true">
             <intent-filter>
                 <action android:name="android.intent.action.ACTION_POWER_CONNECTED"/>
             </intent-filter>
         </receiver>
-        <receiver
-                android:enabled="true"
-                android:name="me.arthurtucker.jarvisjr.receiver.UnPlugReceiver">
+        <receiver android:name=".receiver.UnPlugReceiver"
+            android:enabled="true">
             <intent-filter>
                 <action android:name="android.intent.action.ACTION_POWER_DISCONNECTED"/>
             </intent-filter>
         </receiver>
-        <receiver
-            android:enabled="true"
-            android:name="me.arthurtucker.jarvisjr.receiver.BatteryReceiver"/>
-        <service
-            android:enabled="true"
-            android:name=".service.PowerService"/>
-        <service
-            android:enabled="true"
-            android:name=".service.SpeechService"/>
+        <receiver android:name=".receiver.BatteryReceiver"
+            android:enabled="true"/>
+
+        <!-- Services -->
+        <service android:name=".service.PowerService"
+            android:enabled="true"/>
+        <service android:name=".service.SpeechService"
+            android:enabled="true"/>
         <!--<service
-            android:name="me.arthurtucker.jarvisjr.receiver.NotificationListener"
+            android:name=".receiver.NotificationListener"
             android:permission="android.permission.BIND_NOTIFICATION_LISTENER_SERVICE">
             <intent-filter>
                 <action android:name="android.service.notification.NotificationListenerService" />

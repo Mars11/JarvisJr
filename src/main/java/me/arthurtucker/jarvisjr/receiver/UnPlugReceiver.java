@@ -22,7 +22,7 @@ public class UnPlugReceiver extends BroadcastReceiver {
         Log.d(TAG, "powerServiceStarted = "+Global.powerServiceStarted);
         if (Global.powerServiceStarted) {
             context.stopService(powerIntent);
-            Global.setPowerServiceStarted(false);
+            Global.powerServiceStarted = (false);
             Log.i(TAG, "Stopping PowerService");
         }
     }

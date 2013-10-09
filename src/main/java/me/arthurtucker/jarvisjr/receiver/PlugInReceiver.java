@@ -23,7 +23,7 @@ public class PlugInReceiver extends BroadcastReceiver {
             Log.d(TAG, "powerServiceStarted = "+Global.powerServiceStarted);
             if (!Global.powerServiceStarted) {
                 context.startService(powerIntent);
-                Global.setPowerServiceStarted(true);
+                Global.powerServiceStarted = (true);
                 Log.i(TAG, "Starting PowerService");
             }
         }
