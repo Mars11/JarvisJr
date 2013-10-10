@@ -22,8 +22,7 @@ import me.arthurtucker.jarvisjr.utils.Prefs;
  * Prove HER wrong.
  */
 
-public class TheActivity extends Activity
-        implements CompoundButton.OnCheckedChangeListener {
+public class TheActivity extends Activity implements CompoundButton.OnCheckedChangeListener {
     private static final String TAG = "TheActivity";
     private static Switch mActionBarSwitch;
     private AdView adView;
@@ -67,7 +66,7 @@ public class TheActivity extends Activity
                 Gravity.CENTER_VERTICAL | Gravity.END));
 
         // Checking if controls are enabled
-        mActionBarSwitch.setChecked(Global.mEnabled);
+        mActionBarSwitch.setChecked(Global.isSpeechEnabled);
         // Starting Switch listener
         mActionBarSwitch.setOnCheckedChangeListener(this);
         /**
@@ -105,7 +104,7 @@ public class TheActivity extends Activity
     @Override
     public void onCheckedChanged(CompoundButton compoundButton, boolean bool) {
         if (compoundButton.equals(mActionBarSwitch)) {
-            Global.mEnabled = bool;       //updating global var
+            Global.isSpeechEnabled = bool;       //updating global var
             Prefs.pushPrefs();            //update prefs
             TheFragment.updateSwitches();   //enable/disable switches
             makeToast((bool ? "Voice enabled" : "Voice disabled"), false);

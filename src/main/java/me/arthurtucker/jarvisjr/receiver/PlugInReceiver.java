@@ -18,12 +18,12 @@ public class PlugInReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         Prefs.startPrefs(context);
-        if (Global.batteryFullEnabled) {
+        if (Global.isBatFullEnabled) {
             Intent powerIntent = new Intent(context, PowerService.class);
-            Log.d(TAG, "powerServiceStarted = "+Global.powerServiceStarted);
-            if (!Global.powerServiceStarted) {
+            Log.d(TAG, "powerServiceStarted = "+Global.isPowerServiceStarted);
+            if (!Global.isPowerServiceStarted) {
                 context.startService(powerIntent);
-                Global.powerServiceStarted = (true);
+                Global.isPowerServiceStarted = (true);
                 Log.i(TAG, "Starting PowerService");
             }
         }

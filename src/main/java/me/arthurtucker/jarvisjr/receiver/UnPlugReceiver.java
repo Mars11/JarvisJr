@@ -19,10 +19,10 @@ public class UnPlugReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         Prefs.startPrefs(context);
         Intent powerIntent = new Intent(context, PowerService.class);
-        Log.d(TAG, "powerServiceStarted = "+Global.powerServiceStarted);
-        if (Global.powerServiceStarted) {
+        Log.d(TAG, "powerServiceStarted = "+Global.isPowerServiceStarted);
+        if (Global.isPowerServiceStarted) {
             context.stopService(powerIntent);
-            Global.powerServiceStarted = (false);
+            Global.isPowerServiceStarted = false;
             Log.i(TAG, "Stopping PowerService");
         }
     }

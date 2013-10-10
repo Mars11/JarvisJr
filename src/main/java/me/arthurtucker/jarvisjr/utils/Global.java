@@ -12,29 +12,28 @@ import android.util.Log;
  */
 public class Global {
     private static final String TAG = "GlobalVars";
-    public static boolean hasDonated;
 
-    public static boolean mEnabled;
-    public static boolean isCharged;
+    public static boolean   hasDonated;
 
-    public static boolean quietEnabled;
-    public static int quietStartH;
-    public static int quietStartM;
-    public static boolean startEnabled;
-    public static int quietStopH;
-    public static int quietStopM;
-    public static boolean endEnabled;
-    public static boolean usesMilTime;
+    public static boolean   isSpeechEnabled;
+    public static boolean   isBatCharged;
 
-    public static boolean textEnabled;
-    public static boolean textSenderEnabled;
-    public static boolean textBodyEnabled;
+    public static boolean   isQTEnabled;
+    public static int       startQTHour;
+    public static int       startQTMin;
+    public static boolean   isQTStartEnabled;
+    public static int       endQTHour;
+    public static int       endQTMin;
+    public static boolean   isQTEndEnabled;
 
-    public static boolean batteryFullEnabled;
-    public static boolean saidBatteryCharged;
-    public static boolean powerServiceStarted;
+    public static boolean   isSmsEnabled;
+    public static boolean   isSmsAuthEnabled;
+    public static boolean   isSmsBodyEnabled;
 
-    public static String mVoiceQuality;
+    public static boolean   isBatFullEnabled;
+    public static boolean   isPowerServiceStarted;
+
+    public static String    voiceQuality;
 
     public static String getContactName(Context context, String number) {
 
@@ -46,9 +45,11 @@ public class Global {
                 ContactsContract.PhoneLookup._ID};
 
         // encode the phone number and build the filter URI
+        assert ContactsContract.PhoneLookup.CONTENT_FILTER_URI != null;
         Uri contactUri = Uri.withAppendedPath(ContactsContract.PhoneLookup.CONTENT_FILTER_URI, Uri.encode(number));
 
         // query time
+        assert contactUri != null;
         Cursor cursor = context.getContentResolver().query(contactUri, projection, null, null, null);
 
         if (cursor != null) {

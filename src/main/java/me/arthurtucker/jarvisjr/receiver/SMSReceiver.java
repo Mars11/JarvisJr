@@ -32,18 +32,18 @@ public class SMSReceiver extends BroadcastReceiver {
 
                 Prefs.startPrefs(context);
 
-                if (Global.textEnabled) {
+                if (Global.isSmsEnabled) {
                     String msg = "";
-                    if (Global.textSenderEnabled && Global.textBodyEnabled) {
+                    if (Global.isSmsAuthEnabled && Global.isSmsBodyEnabled) {
                         msg = Global.getContactName(context, messages[0].getOriginatingAddress()) + " sent you a text. It reads: " + messages[0].getMessageBody();
                     }
-                    if (Global.textSenderEnabled && !Global.textBodyEnabled) {
+                    if (Global.isSmsAuthEnabled && !Global.isSmsBodyEnabled) {
                         msg = Global.getContactName(context, messages[0].getOriginatingAddress()) + " sent you a text. ";
                     }
-                    if (Global.textBodyEnabled && !Global.textSenderEnabled) {
+                    if (Global.isSmsBodyEnabled && !Global.isSmsAuthEnabled) {
                         msg = "You received a text. It reads: " + messages[0].getMessageBody();
                     }
-                    if (!Global.textSenderEnabled && !Global.textBodyEnabled) {
+                    if (!Global.isSmsAuthEnabled && !Global.isSmsBodyEnabled) {
                         msg = "You received a text.";
                     }
                     Intent speechIntent = new Intent(context, SpeechService.class);

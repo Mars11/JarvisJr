@@ -22,35 +22,35 @@ public class Prefs {
     }
 
     public static void syncPrefs() {
-        Global.mEnabled         = mPrefs.getBoolean("controlsEnabled", false);
-        Global.mVoiceQuality    = mPrefs.getString("voicequality", "0");
+        Global.isSpeechEnabled  = mPrefs.getBoolean("controlsEnabled", false);
+        Global.voiceQuality     = mPrefs.getString("voicequality", "0");
 
-        Global.quietEnabled     = mPrefs.getBoolean("quietenable", false);
-        Global.quietStartH      = mPrefs.getInt("quietstarth", 0);
-        Global.quietStartM      = mPrefs.getInt("quietstartm", 0);
-        Global.startEnabled     = mPrefs.getBoolean("quiettimestartenabled", false);
-        Global.quietStopH       = mPrefs.getInt("quietendh", 0);
-        Global.quietStopM       = mPrefs.getInt("quietendm", 0);
-        Global.endEnabled       = mPrefs.getBoolean("quiettimeendenabled", false);
+        Global.isQTEnabled      = mPrefs.getBoolean("quietenable", false);
+        Global.startQTHour      = mPrefs.getInt("quietstarth", 0);
+        Global.startQTMin       = mPrefs.getInt("quietstartm", 0);
+        Global.isQTStartEnabled = mPrefs.getBoolean("quiettimestartenabled", false);
+        Global.endQTHour        = mPrefs.getInt("quietendh", 0);
+        Global.endQTMin         = mPrefs.getInt("quietendm", 0);
+        Global.isQTEndEnabled   = mPrefs.getBoolean("quiettimeendenabled", false);
 
-        Global.textEnabled      = mPrefs.getBoolean("textenable", false);
-        Global.textSenderEnabled=mPrefs.getBoolean("textsenderenable", false);
-        Global.textBodyEnabled  =mPrefs.getBoolean("textbodyenable", false);
+        Global.isSmsEnabled     = mPrefs.getBoolean("textenable", false);
+        Global.isSmsAuthEnabled = mPrefs.getBoolean("textsenderenable", false);
+        Global.isSmsBodyEnabled = mPrefs.getBoolean("textbodyenable", false);
 
-        Global.batteryFullEnabled=mPrefs.getBoolean("batteryfull", false);
+        Global.isBatFullEnabled = mPrefs.getBoolean("batteryfull", false);
     }
 
     public static void pushPrefs() {
         Log.d(TAG, "Prefs running updatePrefs()");
         mPrefsEditor = mPrefs.edit();
         //mPrefsEditor.putBoolean("hasdonated", Global.hasDonated);
-        mPrefsEditor.putBoolean("controlsEnabled", Global.mEnabled);
-        mPrefsEditor.putInt("quietstarth", Global.quietStartH);
-        mPrefsEditor.putInt("quietstartm", Global.quietStartM);
-        mPrefsEditor.putBoolean("quiettimestartenabled", Global.startEnabled);
-        mPrefsEditor.putInt("quietendh", Global.quietStopH);
-        mPrefsEditor.putInt("quietendm", Global.quietStopM);
-        mPrefsEditor.putBoolean("quiettimeendenabled", Global.endEnabled);
+        mPrefsEditor.putBoolean("controlsEnabled",  Global.isSpeechEnabled);
+        mPrefsEditor.putInt(    "quietstarth",      Global.startQTHour);
+        mPrefsEditor.putInt(    "quietstartm",      Global.startQTMin);
+        mPrefsEditor.putBoolean("quiettimestartenabled", Global.isQTStartEnabled);
+        mPrefsEditor.putInt(    "quietendh",        Global.endQTHour);
+        mPrefsEditor.putInt(    "quietendm",        Global.endQTMin);
+        mPrefsEditor.putBoolean("quiettimeendenabled", Global.isQTEndEnabled);
 
         // Commit the edits!
         mPrefsEditor.apply();

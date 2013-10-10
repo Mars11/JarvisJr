@@ -24,14 +24,14 @@ public class StopQuietDialog extends DialogFragment implements TimePickerDialog.
 
         int hour;
         int minute;
-        if (Global.endEnabled) {
-            hour = Global.quietStopH;
-            minute = Global.quietStopM;
+        if (Global.isQTEndEnabled) {
+            hour    = Global.endQTHour;
+            minute  = Global.endQTMin;
         } else {
             // Use the current time as the default values for the picker
-            final Calendar c = Calendar.getInstance();
-            hour = c.get(Calendar.HOUR_OF_DAY);
-            minute = c.get(Calendar.MINUTE);
+            final Calendar c    = Calendar.getInstance();
+            hour                = c.get(Calendar.HOUR_OF_DAY);
+            minute              = c.get(Calendar.MINUTE);
         }
 
         // Create a new instance of TimePickerDialog and return it
@@ -40,10 +40,10 @@ public class StopQuietDialog extends DialogFragment implements TimePickerDialog.
     }
 
     @Override
-    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-        Global.endEnabled = true;
-        Global.quietStopH = hourOfDay;
-        Global.quietStopM = minute;
+    public void onTimeSet(TimePicker view, int hour, int minute) {
+        Global.isQTEndEnabled   = true;
+        Global.endQTHour        = hour;
+        Global.endQTMin         = minute;
         TheFragment.updateEndSummary(getActivity());
         Prefs.pushPrefs();
     }

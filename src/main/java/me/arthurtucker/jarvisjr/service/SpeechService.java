@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.media.AudioManager;
 import android.net.ConnectivityManager;
-import android.os.Build;
 import android.os.IBinder;
 import android.speech.tts.TextToSpeech;
 import android.speech.tts.UtteranceProgressListener;
@@ -33,16 +32,16 @@ public class SpeechService extends Service implements TextToSpeech.OnInitListene
     @Override
     public void onCreate() {
         myTTS = null;
-        final Calendar c = Calendar.getInstance();
-        int hour = c.get(Calendar.HOUR_OF_DAY);
-        int minute = c.get(Calendar.MINUTE);
-        if (!Global.mEnabled) {
+        final Calendar c    = Calendar.getInstance();
+        int hour            = c.get(Calendar.HOUR_OF_DAY);
+        int minute          = c.get(Calendar.MINUTE);
+        if (!Global.isSpeechEnabled) {
             Log.d(TAG, "SpeechService canceled");
             stopSelf();
-        } else if (Global.quietEnabled && //quiet time is on
-            (Global.startEnabled && Global.endEnabled) && //and start and end times are set
-            (hour >= Global.quietStartH || hour <= Global.quietStopH) && //and hour is in between start and stop hour
-            (minute >= Global.quietStartM || minute <= Global.quietStopM)) { //and minute is in between start and stop minute
+        } else if (Global.isQTEnabled && //quiet time is on
+            (Global.isQTStartEnabled && Global.isQTEndEnabled) && //and start and end times are set
+            (hour   >= Global.startQTHour   || hour     <= Global.endQTHour) && //and hour is in between start and stop hour
+            (minute >= Global.startQTMin    || minute   <= Global.endQTMin)) { //and minute is in between start and stop minute
                 Log.d(TAG, "SpeechService canceled, it's currently Quiet Time");
                 stopSelf();
         } else {
@@ -51,7 +50,7 @@ public class SpeechService extends Service implements TextToSpeech.OnInitListene
             super.onCreate();
             Intent checkTTSIntent = new Intent();
             checkTTSIntent.setAction(TextToSpeech.Engine.ACTION_CHECK_TTS_DATA);
-            myTTS = new TextToSpeech(this, this);
+            myTTS   = new TextToSpeech(this, this);
             hashMap = new HashMap<String, String>();
         }
     }
@@ -62,7 +61,6 @@ public class SpeechService extends Service implements TextToSpeech.OnInitListene
         return START_STICKY_COMPATIBILITY;
     }
 
-    @SuppressWarnings("deprecation")
     @Override
     public void onInit(int initStatus) {
         if (initStatus == TextToSpeech.SUCCESS) {
@@ -70,44 +68,24 @@ public class SpeechService extends Service implements TextToSpeech.OnInitListene
             if (myTTS.isLanguageAvailable(Locale.UK) == TextToSpeech.LANG_COUNTRY_AVAILABLE) {
                 myTTS.setLanguage(Locale.UK);
             } else {
-                Toast.makeText(this, "Unable to find British Voice",Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "Unable to find British Voice", Toast.LENGTH_LONG).show();
             }
-            if (Build.VERSION.SDK_INT >= 15) {
-                myTTS.setOnUtteranceProgressListener(new UtteranceProgressListener() {
-                    @Override
-                    public void onStart(String s) {
+            myTTS.setOnUtteranceProgressListener(new UtteranceProgressListener() {
+                @Override
+                public void onStart(String s) {}
 
-                    }
+                @Override
+                public void onDone(String s) {
+                    stopSelf();
+                }
 
-                    @Override
-                    public void onDone(String s) {
-                        onComplete();
-                    }
-
-                    @Override
-                    public void onError(String s) {
-
-                    }
-                });
-            } else {
-                /**
-                 * NOT TESTED
-                 */
-                myTTS.setOnUtteranceCompletedListener(new TextToSpeech.OnUtteranceCompletedListener() {
-                    @Override
-                    public void onUtteranceCompleted(String s) {
-                        onComplete();
-                    }
-                });
-            }
+                @Override
+                public void onError(String s) {}
+            });
             sayString(msg);
         } else if (initStatus == TextToSpeech.ERROR) {
             mActivity.makeToast("Failed to start Text-to-Speech Service", true);
         }
-    }
-
-    private void onComplete() {
-        stopSelf();
     }
 
     public void sayString(String string) {
@@ -119,8 +97,8 @@ public class SpeechService extends Service implements TextToSpeech.OnInitListene
         final android.net.NetworkInfo mobile =
                 connMgr.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
 
-        assert wifi != null;
-        assert mobile != null;
+        assert wifi     != null;
+        assert mobile   != null;
 
         if (wifi.isConnected()){
             Log.i(TAG, "Using Wifi");
@@ -129,7 +107,7 @@ public class SpeechService extends Service implements TextToSpeech.OnInitListene
             Log.i(TAG, "Using Mobile");
         }
         else {
-            if (Global.mVoiceQuality.equals("2") || Global.mVoiceQuality.equals("1")) {
+            if (Global.voiceQuality.equals("2") || Global.voiceQuality.equals("1")) {
                 Toast.makeText(this, "No Network " , Toast.LENGTH_LONG).show();
             }
         }
@@ -138,8 +116,8 @@ public class SpeechService extends Service implements TextToSpeech.OnInitListene
 
             hashMap.put(TextToSpeech.Engine.KEY_PARAM_STREAM, String.valueOf(AudioManager.STREAM_NOTIFICATION));
 
-            if ( ( Global.mVoiceQuality.equals("2") && ( wifi.isConnected() || mobile.isConnected() ) )
-                    || ( Global.mVoiceQuality.equals("1") && wifi.isConnected() ) ) {
+            if ( ( Global.voiceQuality.equals("2") && ( wifi.isConnected() || mobile.isConnected() ) )
+                    || ( Global.voiceQuality.equals("1") && wifi.isConnected() ) ) {
 
                 hashMap.put(TextToSpeech.Engine.KEY_FEATURE_NETWORK_SYNTHESIS, "true");
                 Log.i(TAG, "Using the high quality voice");

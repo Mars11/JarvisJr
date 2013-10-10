@@ -23,16 +23,16 @@ public class BatteryReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         Log.i(TAG, "BatteryReceiver started");
 
-        SharedPreferences mPrefs = context.getSharedPreferences(PREFS, 0);
-        SharedPreferences.Editor mPrefsEditor = mPrefs.edit();
+        SharedPreferences mPrefs                = context.getSharedPreferences(PREFS, 0);
+        SharedPreferences.Editor mPrefsEditor   = mPrefs.edit();
 
         Boolean saidCharged = mPrefs.getBoolean("saidCharged", false);
         int status          = intent.getIntExtra(BatteryManager.EXTRA_STATUS, -1);
-        Global.isCharged    = (status == BatteryManager.BATTERY_STATUS_FULL);
-        if (Global.batteryFullEnabled && Global.isCharged && !saidCharged) {
+        Global.isBatCharged = (status == BatteryManager.BATTERY_STATUS_FULL);
+        if (Global.isBatFullEnabled && Global.isBatCharged && !saidCharged) {
             Log.i(TAG, "Battery charged");
             Prefs.startPrefs(context);
-            String msg = "Your battery is full.";
+            String msg          = "Your battery is full.";
             Intent speechIntent = new Intent(context, SpeechService.class);
             speechIntent.putExtra("inmsg", msg);
             context.startService(speechIntent);

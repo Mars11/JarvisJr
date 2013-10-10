@@ -25,15 +25,15 @@ import static java.lang.Math.abs;
  * Prove HER wrong.
  */
 public class TheFragment extends PreferenceFragment implements Preference.OnPreferenceChangeListener, Preference.OnPreferenceClickListener {
-    private static final String TAG = "TheFragment";
-    private static Preference mDonate;
-    private static Preference mPlayExample;
+    private static final String     TAG = "TheFragment";
+    private static Preference       mDonate;
+    private static Preference       mPlayExample;
 
     private static SwitchPreference mQuietEnabled;
-    private static Preference mStartQuietDialog;
-    private static Preference mEndQuietDialog;
-    private static DialogFragment mStartTimePick;
-    private static DialogFragment mEndTimePick;
+    private static Preference       mStartQuietDialog;
+    private static Preference       mEndQuietDialog;
+    private static DialogFragment   mStartTimePick;
+    private static DialogFragment   mEndTimePick;
 
     private static SwitchPreference mTextEnableSwitch;
     private static SwitchPreference mTextSenderSwitch;
@@ -41,17 +41,17 @@ public class TheFragment extends PreferenceFragment implements Preference.OnPref
 
     private static SwitchPreference mBatteryFullSwitch;
 
-    private static ListPreference mHQVoiceList;
+    private static ListPreference   mHQVoiceList;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // Add the preferences
         addPreferencesFromResource(R.xml.settings);
-        PreferenceScreen root = getPreferenceScreen();
+        PreferenceScreen root   = getPreferenceScreen();
 
-        Preference abSpace = root.findPreference("space");
-        assert abSpace != null;
+        Preference abSpace      = root.findPreference("space");
+        assert abSpace          != null;
         abSpace.setLayoutResource(R.layout.settings);
 
         mDonate = findPreference("donate");
@@ -78,7 +78,7 @@ public class TheFragment extends PreferenceFragment implements Preference.OnPref
         updateEndSummary(getActivity());
         mEndTimePick = new StopQuietDialog();
 
-        if (!Global.quietEnabled) {
+        if (!Global.isQTEnabled) {
             Log.d(TAG, "onCreate(), removing prefs");
             PreferenceGroup group = (PreferenceGroup) findPreference("quiet");
             assert group != null;
@@ -96,7 +96,7 @@ public class TheFragment extends PreferenceFragment implements Preference.OnPref
         assert mTextBodySwitch != null;
         mTextBodySwitch.setOnPreferenceChangeListener(this);
 
-        if (!Global.textEnabled) {
+        if (!Global.isSmsEnabled) {
             Log.d(TAG, "onCreate(), removing text prefs");
             PreferenceGroup group = (PreferenceGroup) findPreference("text");
             assert group != null;
@@ -118,76 +118,76 @@ public class TheFragment extends PreferenceFragment implements Preference.OnPref
     public boolean onPreferenceChange(Preference preference, Object newValue) {
         // Quiet Time Settings
         if (preference.equals(mQuietEnabled)) {
-            Global.quietEnabled     = ((Boolean) newValue);
+            Global.isQTEnabled      = ((Boolean) newValue);
             PreferenceGroup group   = (PreferenceGroup) findPreference("quiet");
             assert group != null;
-            if (Global.quietEnabled) {
+            if (Global.isQTEnabled) {
                 group.addPreference(mStartQuietDialog);
                 group.addPreference(mEndQuietDialog);
-            } else if (!Global.quietEnabled) {
+            } else if (!Global.isQTEnabled) {
                 group.removePreference(mStartQuietDialog);
                 group.removePreference(mEndQuietDialog);
             }
         }
         // Text Settings
         if (preference.equals(mTextEnableSwitch)) {
-            Global.textEnabled      = ((Boolean) newValue);
+            Global.isSmsEnabled     = ((Boolean) newValue);
             PreferenceGroup group   = (PreferenceGroup) findPreference("text");
             assert group != null;
-            if (Global.textEnabled) {
+            if (Global.isSmsEnabled) {
                 Log.d(TAG, "Adding preferences");
                 group.addPreference(mTextSenderSwitch);
                 group.addPreference(mTextBodySwitch);
-            } else if (!Global.textEnabled) {
+            } else if (!Global.isSmsEnabled) {
                 Log.d(TAG, "Removing preferences");
                 group.removePreference(mTextSenderSwitch);
                 group.removePreference(mTextBodySwitch);
             }
         }
         if (preference.equals(mTextSenderSwitch)) {
-            Global.textSenderEnabled = ((Boolean) newValue);
+            Global.isSmsAuthEnabled = ((Boolean) newValue);
         }
         if (preference.equals(mTextBodySwitch)) {
-            Global.textBodyEnabled = ((Boolean) newValue);
+            Global.isSmsBodyEnabled = ((Boolean) newValue);
         }
         //  Battery Settings
         if (preference.equals(mBatteryFullSwitch)) {
-            Global.batteryFullEnabled = ((Boolean) newValue);
+            Global.isBatFullEnabled = ((Boolean) newValue);
         }
         // Voice settings
         if (preference.equals(mHQVoiceList)) {
-            Global.mVoiceQuality = ((String) newValue);
-            mHQVoiceList.setSummary(getResources().getStringArray(R.array.app_hq_entries)[Integer.parseInt(Global.mVoiceQuality)]);
+            Global.voiceQuality = ((String) newValue);
+            mHQVoiceList.setSummary(getResources().getStringArray(R.array.app_hq_entries)[Integer.parseInt(Global.voiceQuality)]);
         }
         return true;
     }
 
     public static void updateSwitches() {
-        Log.d(TAG, "Enabled = " + Global.mEnabled);
+        Log.d(TAG, "Enabled = " +       Global.isSpeechEnabled);
 
         //  App Settings
-        mPlayExample.setEnabled(Global.mEnabled);
-        mHQVoiceList.setEnabled(Global.mEnabled);
+        mPlayExample.setEnabled(        Global.isSpeechEnabled);
+        mHQVoiceList.setEnabled(        Global.isSpeechEnabled);
         //  Text Settings
-        mTextEnableSwitch.setEnabled(Global.mEnabled);
-        mTextSenderSwitch.setEnabled(Global.mEnabled);
-        mTextBodySwitch.setEnabled(Global.mEnabled);
+        mTextEnableSwitch.setEnabled(   Global.isSpeechEnabled);
+        mTextSenderSwitch.setEnabled(   Global.isSpeechEnabled);
+        mTextBodySwitch.setEnabled(     Global.isSpeechEnabled);
         //  Quiet Time Settings
-        mQuietEnabled.setEnabled(Global.mEnabled);
-        mStartQuietDialog.setEnabled(Global.mEnabled);
-        mStartQuietDialog.setEnabled(Global.mEnabled);
+        mQuietEnabled.setEnabled(       Global.isSpeechEnabled);
+        mStartQuietDialog.setEnabled(   Global.isSpeechEnabled);
+        mStartQuietDialog.setEnabled(   Global.isSpeechEnabled);
         //  Battery Settings
-        mBatteryFullSwitch.setEnabled(Global.mEnabled);
+        mBatteryFullSwitch.setEnabled   (Global.isSpeechEnabled);
     }
 
     @Override
     public boolean onPreferenceClick(Preference preference) {
         if (preference.equals(mPlayExample)) {
-            String msg = "This is an example of Jarvis Junior's voice.";
-            Activity activity = getActivity();
+            String msg          = "This is an example of Jarvis Junior's voice.";
+            Activity activity   = getActivity();
             Intent speechIntent = new Intent(activity, SpeechService.class);
             speechIntent.putExtra("inmsg", msg);
-            assert activity != null;
+            assert activity    != null;
             activity.startService(speechIntent);
         }
         if (preference.equals(mStartQuietDialog)) {
@@ -205,20 +205,20 @@ public class TheFragment extends PreferenceFragment implements Preference.OnPref
     }
 
     public static void updateStartSummary(Context context) {
-        if (Global.startEnabled) {
+        if (Global.isQTStartEnabled) {
             if (DateFormat.is24HourFormat(context)) {
-                mStartQuietDialog.setSummary((Global.quietStartH < 10 ?  "0"+Global.quietStartH : Global.quietStartH )+":"+(Global.quietStartM < 10 ? "0"+Global.quietStartM : Global.quietStartM));
+                mStartQuietDialog.setSummary((Global.startQTHour < 10 ?  "0"+Global.startQTHour : Global.startQTHour )+":"+(Global.startQTMin < 10 ? "0"+Global.startQTMin : Global.startQTMin));
             } else {
                 int hour;
                 String amPM;
-                if (Global.quietStartH >= 12) {
-                    hour = abs(Global.quietStartH - 12);
+                if (Global.startQTHour >= 12) {
+                    hour = abs(Global.startQTHour - 12);
                     amPM = "PM";
                 } else {
-                    hour = Global.quietStartH;
+                    hour = Global.startQTHour;
                     amPM = "AM";
                 }
-                mStartQuietDialog.setSummary(hour +":"+(Global.quietStartM < 10 ? "0"+Global.quietStartM : Global.quietStartM) +" "+ amPM);
+                mStartQuietDialog.setSummary(hour +":"+(Global.startQTMin < 10 ? "0"+Global.startQTMin : Global.startQTMin) +" "+ amPM);
             }
         } else {
             mStartQuietDialog.setSummary("Not yet set");
@@ -226,20 +226,20 @@ public class TheFragment extends PreferenceFragment implements Preference.OnPref
     }
 
     public static void updateEndSummary(Context context) {
-        if (Global.endEnabled) {
+        if (Global.isQTEndEnabled) {
             if (DateFormat.is24HourFormat(context)) {
-                mEndQuietDialog.setSummary((Global.quietStopH < 10 ? "0"+Global.quietStopH : Global.quietStopH)+":"+(Global.quietStopM < 10 ? "0"+Global.quietStopM : Global.quietStopM));
+                mEndQuietDialog.setSummary((Global.endQTHour < 10 ? "0"+Global.endQTHour : Global.endQTHour)+":"+(Global.endQTMin < 10 ? "0"+Global.endQTMin : Global.endQTMin));
             } else {
                 int hour;
                 String amPM;
-                if (Global.quietStopH >= 12) {
-                    hour = abs(Global.quietStopH -12);
+                if (Global.endQTHour >= 12) {
+                    hour = abs(Global.endQTHour -12);
                     amPM = "PM";
                 } else {
-                    hour = Global.quietStopH;
+                    hour = Global.endQTHour;
                     amPM = "AM";
                 }
-                mEndQuietDialog.setSummary(hour +":"+ (Global.quietStopM < 10 ? "0"+Global.quietStopM : Global.quietStopM) +" "+ amPM);
+                mEndQuietDialog.setSummary(hour +":"+ (Global.endQTMin < 10 ? "0"+Global.endQTMin : Global.endQTMin) +" "+ amPM);
             }
         } else {
             mEndQuietDialog.setSummary("Not yet set");
