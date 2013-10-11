@@ -13,7 +13,7 @@ repositories {
 }
 
 dependencies {
-    compile files('libs/google-admob.jar')
+    //compile files('libs/google-admob.jar')
 }
 
 android {

@@ -17,7 +17,7 @@ public class PlugInReceiver extends BroadcastReceiver {
     private static final String TAG = "PlugInReceiver";
     @Override
     public void onReceive(Context context, Intent intent) {
-        Prefs.startPrefs(context);
+        Prefs.restorePrefs(context);
         if (Global.isBatFullEnabled) {
             Intent powerIntent = new Intent(context, PowerService.class);
             Log.d(TAG, "powerServiceStarted = "+Global.isPowerServiceStarted);

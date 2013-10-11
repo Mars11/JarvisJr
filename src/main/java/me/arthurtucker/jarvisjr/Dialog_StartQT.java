@@ -16,7 +16,7 @@ import me.arthurtucker.jarvisjr.utils.Prefs;
  * Created by Arthur on 7/24/13.
  * Prove HER wrong.
  */
-public class StartQuietDialog extends DialogFragment implements TimePickerDialog.OnTimeSetListener {
+public class Dialog_StartQT extends DialogFragment implements TimePickerDialog.OnTimeSetListener {
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -44,7 +44,7 @@ public class StartQuietDialog extends DialogFragment implements TimePickerDialog
         Global.isQTStartEnabled = true;
         Global.startQTHour      = hour;
         Global.startQTMin       = minute;
-        TheFragment.updateStartSummary(getActivity());
+        TheFragment.updateQTStartSummary(getActivity());
         Prefs.pushPrefs();
     }
 

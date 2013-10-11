@@ -12,12 +12,9 @@ import android.util.Log;
  */
 public class Global {
     private static final String TAG = "GlobalVars";
-
     public static boolean   hasDonated;
-
     public static boolean   isSpeechEnabled;
     public static boolean   isBatCharged;
-
     public static boolean   isQTEnabled;
     public static int       startQTHour;
     public static int       startQTMin;
@@ -25,14 +22,11 @@ public class Global {
     public static int       endQTHour;
     public static int       endQTMin;
     public static boolean   isQTEndEnabled;
-
     public static boolean   isSmsEnabled;
     public static boolean   isSmsAuthEnabled;
     public static boolean   isSmsBodyEnabled;
-
     public static boolean   isBatFullEnabled;
     public static boolean   isPowerServiceStarted;
-
     public static String    voiceQuality;
 
     public static String getContactName(Context context, String number) {

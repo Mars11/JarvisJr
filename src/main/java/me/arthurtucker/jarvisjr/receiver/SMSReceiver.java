@@ -30,7 +30,7 @@ public class SMSReceiver extends BroadcastReceiver {
             if (messages.length > -1) {
                 Log.i(TAG, "Message received: " + messages[0].getMessageBody());
 
-                Prefs.startPrefs(context);
+                Prefs.restorePrefs(context);
 
                 if (Global.isSmsEnabled) {
                     String msg = "";

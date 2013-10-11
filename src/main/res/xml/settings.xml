@@ -17,53 +17,68 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
     <Preference android:key="space"/>
-    <PreferenceCategory android:title="@string/app_cat">
-        <Preference
-            android:title="Donate"
-            android:summary="Disable Ads"
-            android:key="donate"/>
-        <Preference android:key="exampleplay"
-            android:title="@string/example_play_title"/>
-    </PreferenceCategory>
-    <PreferenceCategory android:title="Quiet Time Settings"
-        android:key="quiet">
-        <SwitchPreference android:key="quietenable"
-            android:title="Enable Quiet Time"/>
-        <Preference android:key="startquiettime"
-            android:title="Start Time"/>
-        <Preference android:key="stopquiettime"
-            android:title="End Time"/>
-    </PreferenceCategory>
+
     <PreferenceCategory
-        android:title="@string/texts_cat"
-        android:key="text">
-        <SwitchPreference
-            android:title="@string/texts_speak_title"
-            android:summary="@string/texts_speak_sum"
-            android:key="textenable"/>
-        <SwitchPreference
-            android:title="@string/texts_sender_title"
-            android:summary="@string/texts_sender_sum"
-            android:key="textsenderenable"/>
-        <SwitchPreference
-            android:title="@string/texts_body_title"
-            android:summary="@string/texts_body_sum"
-            android:key="textbodyenable"/>
+        android:title="@string/App_Category">
+        <Preference
+            android:title="@string/App_Donate_Title"
+            android:summary="@string/App_Donate_Summary.Donate"
+            android:key="app_donate"/>
+        <Preference
+            android:title="@string/App_Example_Title"
+            android:summary="@string/App_Example_Summary"
+            android:key="app_example"/>
     </PreferenceCategory>
-    <PreferenceCategory android:title="@string/battery_cat">
+
+    <PreferenceCategory
+        android:title="@string/QT_Category"
+        android:key="qt">
         <SwitchPreference
-            android:title="@string/battery_full_title"
-            android:summary="@string/battery_full_sum"
-            android:key="batteryfull"/>
+            android:title="@string/QT_Enable_Title"
+            android:key="qt_enable"/>
+        <Preference
+            android:title="@string/QT_Start_Title"
+            android:key="qt_start"/>
+        <Preference
+            android:title="@string/QT_End_Title"
+            android:key="qt_end"/>
     </PreferenceCategory>
-    <PreferenceCategory android:title="Voice Settings">
+
+    <PreferenceCategory
+        android:title="@string/SMS_Category"
+        android:key="sms">
+        <SwitchPreference
+            android:title="@string/SMS_Enable_Title"
+            android:summary="@string/SMS_Enable_Summary.Off"
+            android:key="sms_enable"/>
+        <SwitchPreference
+            android:title="@string/SMS_Author_Title"
+            android:summary="@string/SMS_Author_Summary.Off"
+            android:key="sms_author"/>
+        <SwitchPreference
+            android:title="@string/SMS_Body_Title"
+            android:summary="@string/SMS_Body_Summary.Off"
+            android:key="sms_body"/>
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="@string/Battery_Category"
+        android:key="battery">
+        <SwitchPreference
+            android:title="@string/Battery_Full_Title"
+            android:summary="@string/Battery_Full_Summary"
+            android:key="battery_full"/>
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="@string/Voice_Category">
         <ListPreference
-            android:key="voicequality"
-            android:title="@string/app_hq_title"
+            android:title="@string/Voice_Quality_Title"
             android:summary="%s"
-            android:entries="@array/app_hq_entries"
-            android:entryValues="@array/app_hq_entry_values"
-            android:defaultValue="0"/>
+            android:entries="@array/Voice_Quality_Entries"
+            android:entryValues="@array/Voice_Quality_Values"
+            android:defaultValue="0"
+            android:key="voice_quality"/>
     </PreferenceCategory>
 
 </PreferenceScreen>

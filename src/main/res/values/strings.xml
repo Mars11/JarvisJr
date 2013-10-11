@@ -2,42 +2,51 @@
 <resources>
 
     <string name="app_name">Jarvis Jr.</string>
-    <string name="app_name_short">JJ</string>
-    <string name="action_settings">Settings</string>
-    <!-- Default text for a button that can be toggled on and off. -->
-    <string name="capital_on">ON</string>
-    <!-- Default text for a button that can be toggled on and off. -->
-    <string name="capital_off">OFF</string>
 
-    <!--Preferences-->
-    <string name="app_cat">App Settings</string>
-    <string name="example_play_title">Play an example</string>
-    <string name="app_hq_title">Use high quality voice?</string>
-    <string name="app_hq_sum">Error</string>
-    <string-array name="app_hq_entries">
+    <!--Options-->
+    <string name="App_Category">App Settings</string>
+    <string name="App_Donate_Title">Donate</string>
+    <string name="App_Donate_Summary.Donate">Currently disables ads.</string>
+    <string name="App_Donate_Summary.Donated">Thanks for your support!</string>
+    <string name="App_Example_Title">Play an example</string>
+    <string name="App_Example_Summary">Plays a voice example using your current settings.</string>
+
+    <string name="QT_Category">Quiet Time Settings</string>
+    <string name="QT_Enable_Title">Enable Quiet Time</string>
+    <string name="QT_Start_Title">Start Time</string>
+    <string name="QT_End_Title">End Time</string>
+    <string name="QT_Summary.NotSet">Not yet set</string>
+
+    <string name="SMS_Category">Text Settings</string>
+    <string name="SMS_Enable_Title">Speak Texts?</string>
+    <string name="SMS_Enable_Summary.Off">Allow Jarvis Jr. to speak texts?</string>
+    <string name="SMS_Enable_Summary.On">Forbid Jarvis Jr. to speak texts?</string>
+    <string name="SMS_Author_Title">Say Who Sent It?</string>
+    <string name="SMS_Author_Summary.Off">off</string>
+    <string name="SMS_Author_Summary.On">on</string>
+    <string name="SMS_Message_Title">Say Message?</string>
+    <string name="SMS_Message_Summary.Off">off</string>
+    <string name="SMS_Message_Summary.On">on</string>
+
+    <string name="Battery_Category">Battery Settings</string>
+    <string name="Battery_Full_Title">Say Charged</string>
+    <string name="Battery_Full_Summary">When this is on, Jarvis tells you when the battery finished charging.</string>
+
+    <string name="Voice_Category">Voice Settings</string>
+    <string name="Voice_Quality_Title">Use high quality voice?</string>
+    <string-array name="Voice_Quality_Entries">
         <item>Never use</item>
         <item>Only on Wi-Fi</item>
         <item>Always use</item>
     </string-array>
-    <string-array name="app_hq_entry_values">
+    <string-array name="Voice_Quality_Values">
         <item>0</item>
         <item>1</item>
         <item>2</item>
     </string-array>
-    <string name="app_engine_title">Choose Voice</string>
-    <string name="app_reset_title">Reset?</string>
-    <string name="app_reset_sum">Clear all your changes?</string>
 
-    <string name="texts_cat">Text Settings</string>
-    <string name="texts_speak_title">Say Texts?</string>
-    <string name="texts_speak_sum">When this is on, Jarvis speaks all or part of the text you receive.</string>
-    <string name="texts_sender_title">Say Sender?</string>
-    <string name="texts_sender_sum">When this is on, Jarvis tells you who sent the text.</string>
-    <string name="texts_body_title">Say Body?</string>
-    <string name="texts_body_sum">When this is on, Jarvis tells you the body of the text you received.</string>
+    <string name="Summary.Disabled">Disabled.</string>
 
-    <string name="battery_cat">Battery Settings</string>
-    <string name="battery_full_title">Say Charged?</string>
-    <string name="battery_full_sum">When this is on, Jarvis tells you when the battery finished charging.</string>
-
+    <!--Misc-->
+    <string name="Example_String">This is an example of Jarvis Junior\'s voice.</string>
 </resources>

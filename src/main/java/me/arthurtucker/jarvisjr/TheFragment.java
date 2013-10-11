@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
-import android.preference.PreferenceGroup;
 import android.preference.PreferenceScreen;
 import android.preference.SwitchPreference;
 import android.text.format.DateFormat;
@@ -25,189 +24,52 @@ import static java.lang.Math.abs;
  * Prove HER wrong.
  */
 public class TheFragment extends PreferenceFragment implements Preference.OnPreferenceChangeListener, Preference.OnPreferenceClickListener {
-    private static final String     TAG = "TheFragment";
-    private static Preference       mDonate;
-    private static Preference       mPlayExample;
+    private static final String TAG = "TheFragment";
+    private static Preference appDonate;
+    private static Preference appExample;
+    private static SwitchPreference qtEnable;
+    private static Preference qtStart;
+    private static Preference qtEnd;
+    private static DialogFragment qtStartPick;
+    private static DialogFragment qtEndPick;
+    private static SwitchPreference smsEnable;
+    private static SwitchPreference smsAuthor;
+    private static SwitchPreference smsBody;
+    private static SwitchPreference batteryFull;
+    private static ListPreference voiceQuality;
 
-    private static SwitchPreference mQuietEnabled;
-    private static Preference       mStartQuietDialog;
-    private static Preference       mEndQuietDialog;
-    private static DialogFragment   mStartTimePick;
-    private static DialogFragment   mEndTimePick;
-
-    private static SwitchPreference mTextEnableSwitch;
-    private static SwitchPreference mTextSenderSwitch;
-    private static SwitchPreference mTextBodySwitch;
-
-    private static SwitchPreference mBatteryFullSwitch;
-
-    private static ListPreference   mHQVoiceList;
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        // Add the preferences
-        addPreferencesFromResource(R.xml.settings);
-        PreferenceScreen root   = getPreferenceScreen();
-
-        Preference abSpace      = root.findPreference("space");
-        assert abSpace          != null;
-        abSpace.setLayoutResource(R.layout.settings);
-
-        mDonate = findPreference("donate");
-        assert mDonate != null;
-        mDonate.setOnPreferenceClickListener(this);
-        if (Global.hasDonated) {
-            mDonate.setSummary("Thanks for donating!");
-        }
-        mPlayExample        = root.findPreference("exampleplay");
-        assert mPlayExample != null;
-        mPlayExample.setOnPreferenceClickListener(this);
-
-        mQuietEnabled       = (SwitchPreference) root.findPreference("quietenable");
-        assert mQuietEnabled != null;
-        mQuietEnabled.setOnPreferenceChangeListener(this);
-        mStartQuietDialog   = root.findPreference("startquiettime");
-        assert mStartQuietDialog != null;
-        mStartQuietDialog.setOnPreferenceClickListener(this);
-        updateStartSummary(getActivity());
-        mStartTimePick = new StartQuietDialog();
-        mEndQuietDialog   = root.findPreference("stopquiettime");
-        assert mEndQuietDialog != null;
-        mEndQuietDialog.setOnPreferenceClickListener(this);
-        updateEndSummary(getActivity());
-        mEndTimePick = new StopQuietDialog();
-
-        if (!Global.isQTEnabled) {
-            Log.d(TAG, "onCreate(), removing prefs");
-            PreferenceGroup group = (PreferenceGroup) findPreference("quiet");
-            assert group != null;
-            group.removePreference(mStartQuietDialog);
-            group.removePreference(mEndQuietDialog);
-        }
-
-        mTextEnableSwitch   = (SwitchPreference) root.findPreference("textenable");
-        assert mTextEnableSwitch != null;
-        mTextEnableSwitch.setOnPreferenceChangeListener(this);
-        mTextSenderSwitch   = (SwitchPreference) root.findPreference("textsenderenable");
-        assert mTextSenderSwitch != null;
-        mTextSenderSwitch.setOnPreferenceChangeListener(this);
-        mTextBodySwitch     = (SwitchPreference) root.findPreference("textbodyenable");
-        assert mTextBodySwitch != null;
-        mTextBodySwitch.setOnPreferenceChangeListener(this);
-
-        if (!Global.isSmsEnabled) {
-            Log.d(TAG, "onCreate(), removing text prefs");
-            PreferenceGroup group = (PreferenceGroup) findPreference("text");
-            assert group != null;
-            group.removePreference(mTextSenderSwitch);
-            group.removePreference(mTextBodySwitch);
-        }
-
-        mBatteryFullSwitch  = (SwitchPreference) root.findPreference("batteryfull");
-        assert mBatteryFullSwitch != null;
-        mBatteryFullSwitch.setOnPreferenceChangeListener(this);
-
-        mHQVoiceList        = (ListPreference) root.findPreference("voicequality");
-        assert mHQVoiceList != null;
-        mHQVoiceList.setOnPreferenceChangeListener(this);
-
+    public static void toggleQtSwitches() {
+        qtStart.setEnabled(Global.isQTEnabled);
+        qtEnd.setEnabled(Global.isQTEnabled);
     }
 
-    @Override
-    public boolean onPreferenceChange(Preference preference, Object newValue) {
-        // Quiet Time Settings
-        if (preference.equals(mQuietEnabled)) {
-            Global.isQTEnabled      = ((Boolean) newValue);
-            PreferenceGroup group   = (PreferenceGroup) findPreference("quiet");
-            assert group != null;
-            if (Global.isQTEnabled) {
-                group.addPreference(mStartQuietDialog);
-                group.addPreference(mEndQuietDialog);
-            } else if (!Global.isQTEnabled) {
-                group.removePreference(mStartQuietDialog);
-                group.removePreference(mEndQuietDialog);
-            }
-        }
-        // Text Settings
-        if (preference.equals(mTextEnableSwitch)) {
-            Global.isSmsEnabled     = ((Boolean) newValue);
-            PreferenceGroup group   = (PreferenceGroup) findPreference("text");
-            assert group != null;
-            if (Global.isSmsEnabled) {
-                Log.d(TAG, "Adding preferences");
-                group.addPreference(mTextSenderSwitch);
-                group.addPreference(mTextBodySwitch);
-            } else if (!Global.isSmsEnabled) {
-                Log.d(TAG, "Removing preferences");
-                group.removePreference(mTextSenderSwitch);
-                group.removePreference(mTextBodySwitch);
-            }
-        }
-        if (preference.equals(mTextSenderSwitch)) {
-            Global.isSmsAuthEnabled = ((Boolean) newValue);
-        }
-        if (preference.equals(mTextBodySwitch)) {
-            Global.isSmsBodyEnabled = ((Boolean) newValue);
-        }
-        //  Battery Settings
-        if (preference.equals(mBatteryFullSwitch)) {
-            Global.isBatFullEnabled = ((Boolean) newValue);
-        }
-        // Voice settings
-        if (preference.equals(mHQVoiceList)) {
-            Global.voiceQuality = ((String) newValue);
-            mHQVoiceList.setSummary(getResources().getStringArray(R.array.app_hq_entries)[Integer.parseInt(Global.voiceQuality)]);
-        }
-        return true;
+    public static void toggleSmsSwitches() {
+        smsAuthor.setEnabled(Global.isSmsEnabled);
+        smsBody.setEnabled(Global.isSmsEnabled);
     }
 
     public static void updateSwitches() {
-        Log.d(TAG, "Enabled = " +       Global.isSpeechEnabled);
+        Log.d(TAG, "Enabled = " + Global.isSpeechEnabled);
 
-        //  App Settings
-        mPlayExample.setEnabled(        Global.isSpeechEnabled);
-        mHQVoiceList.setEnabled(        Global.isSpeechEnabled);
-        //  Text Settings
-        mTextEnableSwitch.setEnabled(   Global.isSpeechEnabled);
-        mTextSenderSwitch.setEnabled(   Global.isSpeechEnabled);
-        mTextBodySwitch.setEnabled(     Global.isSpeechEnabled);
-        //  Quiet Time Settings
-        mQuietEnabled.setEnabled(       Global.isSpeechEnabled);
-        mStartQuietDialog.setEnabled(   Global.isSpeechEnabled);
-        mStartQuietDialog.setEnabled(   Global.isSpeechEnabled);
-        //  Battery Settings
-        mBatteryFullSwitch.setEnabled   (Global.isSpeechEnabled);
+        appExample.setEnabled(Global.isSpeechEnabled);
+
+        smsEnable.setEnabled(Global.isSpeechEnabled);
+        smsAuthor.setEnabled(Global.isSpeechEnabled);
+        smsBody.setEnabled(Global.isSpeechEnabled);
+
+        qtEnable.setEnabled(Global.isSpeechEnabled);
+        qtStart.setEnabled(Global.isSpeechEnabled);
+        qtStart.setEnabled(Global.isSpeechEnabled);
+
+        batteryFull.setEnabled(Global.isSpeechEnabled);
+
+        voiceQuality.setEnabled(Global.isSpeechEnabled);
     }
 
-    @Override
-    public boolean onPreferenceClick(Preference preference) {
-        if (preference.equals(mPlayExample)) {
-            String msg          = "This is an example of Jarvis Junior's voice.";
-            Activity activity   = getActivity();
-            Intent speechIntent = new Intent(activity, SpeechService.class);
-            speechIntent.putExtra("inmsg", msg);
-            assert activity    != null;
-            activity.startService(speechIntent);
-        }
-        if (preference.equals(mStartQuietDialog)) {
-            mStartTimePick.show(getFragmentManager(), "startpickdialog");
-        }
-        if (preference.equals(mEndQuietDialog)) {
-            mEndTimePick.show(getFragmentManager(), "endpickdialog");
-        }
-        if (preference.equals(mDonate)) {
-            Intent intent = new Intent(Intent.ACTION_VIEW);
-            intent.setData(Uri.parse("market://details?id=me.arthurtucker.jarvisjrdonationkey"));
-            startActivity(intent);
-        }
-        return true;
-    }
-
-    public static void updateStartSummary(Context context) {
+    public static void updateQTStartSummary(Context context) {
         if (Global.isQTStartEnabled) {
             if (DateFormat.is24HourFormat(context)) {
-                mStartQuietDialog.setSummary((Global.startQTHour < 10 ?  "0"+Global.startQTHour : Global.startQTHour )+":"+(Global.startQTMin < 10 ? "0"+Global.startQTMin : Global.startQTMin));
+                qtStart.setSummary((Global.startQTHour < 10 ? "0" + Global.startQTHour : Global.startQTHour) + ":" + (Global.startQTMin < 10 ? "0" + Global.startQTMin : Global.startQTMin));
             } else {
                 int hour;
                 String amPM;
@@ -218,32 +80,140 @@ public class TheFragment extends PreferenceFragment implements Preference.OnPref
                     hour = Global.startQTHour;
                     amPM = "AM";
                 }
-                mStartQuietDialog.setSummary(hour +":"+(Global.startQTMin < 10 ? "0"+Global.startQTMin : Global.startQTMin) +" "+ amPM);
+                qtStart.setSummary(hour + ":" + (Global.startQTMin < 10 ? "0" + Global.startQTMin : Global.startQTMin) + " " + amPM);
             }
         } else {
-            mStartQuietDialog.setSummary("Not yet set");
+            qtStart.setSummary(R.string.QT_Summary_NotSet);
         }
     }
 
-    public static void updateEndSummary(Context context) {
+    public static void updateQTEndSummary(Context context) {
         if (Global.isQTEndEnabled) {
             if (DateFormat.is24HourFormat(context)) {
-                mEndQuietDialog.setSummary((Global.endQTHour < 10 ? "0"+Global.endQTHour : Global.endQTHour)+":"+(Global.endQTMin < 10 ? "0"+Global.endQTMin : Global.endQTMin));
+                qtEnd.setSummary((Global.endQTHour < 10 ? "0" + Global.endQTHour : Global.endQTHour) + ":" + (Global.endQTMin < 10 ? "0" + Global.endQTMin : Global.endQTMin));
             } else {
                 int hour;
                 String amPM;
                 if (Global.endQTHour >= 12) {
-                    hour = abs(Global.endQTHour -12);
+                    hour = abs(Global.endQTHour - 12);
                     amPM = "PM";
                 } else {
                     hour = Global.endQTHour;
                     amPM = "AM";
                 }
-                mEndQuietDialog.setSummary(hour +":"+ (Global.endQTMin < 10 ? "0"+Global.endQTMin : Global.endQTMin) +" "+ amPM);
+                qtEnd.setSummary(hour + ":" + (Global.endQTMin < 10 ? "0" + Global.endQTMin : Global.endQTMin) + " " + amPM);
             }
         } else {
-            mEndQuietDialog.setSummary("Not yet set");
+            qtEnd.setSummary(R.string.QT_Summary_NotSet);
         }
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        // Add the preferences
+        addPreferencesFromResource(R.xml.settings);
+        PreferenceScreen root = getPreferenceScreen();
+
+        Preference abSpace = root.findPreference("space");
+        assert abSpace != null;
+        abSpace.setLayoutResource(R.layout.settings);
+
+        appDonate = findPreference("app_donate");
+        appExample = root.findPreference("app_example");
+
+        qtEnable = (SwitchPreference) root.findPreference("qt_enable");
+        qtStart = root.findPreference("qt_start");
+        qtEnd = root.findPreference("qt_end");
+        toggleQtSwitches();
+
+        smsEnable = (SwitchPreference) root.findPreference("sms_enable");
+        smsAuthor = (SwitchPreference) root.findPreference("sms_author");
+        smsBody = (SwitchPreference) root.findPreference("sms_body");
+        toggleSmsSwitches();
+
+        batteryFull = (SwitchPreference) root.findPreference("battery_full");
+
+        voiceQuality = (ListPreference) root.findPreference("voice_quality");
+
+        if (Global.hasDonated) {
+            appDonate.setSummary(R.string.App_Donate_Summary_Donated);
+        }
+
+        updateQTStartSummary(getActivity());
+        updateQTEndSummary(getActivity());
+        qtStartPick = new Dialog_StartQT();
+        qtEndPick = new Dialog_EndQT();
+
+        appDonate.setOnPreferenceClickListener(this);
+        appExample.setOnPreferenceClickListener(this);
+
+        qtEnable.setOnPreferenceChangeListener(this);
+        qtStart.setOnPreferenceClickListener(this);
+        qtEnd.setOnPreferenceClickListener(this);
+
+        smsEnable.setOnPreferenceChangeListener(this);
+        smsAuthor.setOnPreferenceChangeListener(this);
+        smsBody.setOnPreferenceChangeListener(this);
+
+        batteryFull.setOnPreferenceChangeListener(this);
+
+        voiceQuality.setOnPreferenceChangeListener(this);
+
+    }
+
+    @Override
+    public boolean onPreferenceChange(Preference preference, Object newValue) {
+        // Quiet Time Settings
+        if (preference.equals(qtEnable)) {
+            Global.isQTEnabled = ((Boolean) newValue);
+            toggleQtSwitches();
+        }
+        // Text Settings
+        if (preference.equals(smsEnable)) {
+            Global.isSmsEnabled = ((Boolean) newValue);
+            toggleSmsSwitches();
+        }
+        if (preference.equals(smsAuthor)) {
+            Global.isSmsAuthEnabled = ((Boolean) newValue);
+        }
+        if (preference.equals(smsBody)) {
+            Global.isSmsBodyEnabled = ((Boolean) newValue);
+        }
+        //  Battery Settings
+        if (preference.equals(batteryFull)) {
+            Global.isBatFullEnabled = ((Boolean) newValue);
+        }
+        // Voice settings
+        if (preference.equals(voiceQuality)) {
+            Global.voiceQuality = ((String) newValue);
+            voiceQuality.setSummary(getResources().getStringArray(R.array.Voice_Quality_Entries)[Integer.parseInt(Global.voiceQuality)]);
+        }
+        return true;
+    }
+
+    @Override
+    public boolean onPreferenceClick(Preference preference) {
+        if (preference.equals(appExample)) {
+            String msg = getString(R.string.Example_String);
+            Activity activity = getActivity();
+            Intent speechIntent = new Intent(activity, SpeechService.class);
+            speechIntent.putExtra("inmsg", msg);
+            assert activity != null;
+            activity.startService(speechIntent);
+        }
+        if (preference.equals(qtStart)) {
+            qtStartPick.show(getFragmentManager(), "startpickdialog");
+        }
+        if (preference.equals(qtEnd)) {
+            qtEndPick.show(getFragmentManager(), "endpickdialog");
+        }
+        if (preference.equals(appDonate)) {
+            Intent intent = new Intent(Intent.ACTION_VIEW);
+            intent.setData(Uri.parse("market://details?id=me.arthurtucker.jarvisjrdonationkey"));
+            startActivity(intent);
+        }
+        return true;
     }
 
 }

@@ -7,13 +7,8 @@ import android.os.Build;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.widget.CompoundButton;
-import android.widget.LinearLayout;
 import android.widget.Switch;
 import android.widget.Toast;
-
-import com.google.ads.AdRequest;
-import com.google.ads.AdSize;
-import com.google.ads.AdView;
 
 import me.arthurtucker.jarvisjr.utils.Global;
 import me.arthurtucker.jarvisjr.utils.Prefs;
@@ -25,7 +20,6 @@ import me.arthurtucker.jarvisjr.utils.Prefs;
 public class TheActivity extends Activity implements CompoundButton.OnCheckedChangeListener {
     private static final String TAG = "TheActivity";
     private static Switch mActionBarSwitch;
-    private AdView adView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +31,7 @@ public class TheActivity extends Activity implements CompoundButton.OnCheckedCha
             Global.hasDonated = true;
         }
 
-        Prefs.startPrefs(this);
+        Prefs.restorePrefs(this);
         setContentView(R.layout.activity_layout);
         TheFragment.updateSwitches();
         ActionBar mActionBar = getActionBar();
@@ -72,29 +66,11 @@ public class TheActivity extends Activity implements CompoundButton.OnCheckedCha
         /**
          * Switch made
          */
-
-        if (Global.hasDonated) {
-            makeToast("Thanks for donating!", false);
-        } else {
-            // Create the adView
-            adView = new AdView(this, AdSize.SMART_BANNER, "a151f83af4d6472");
-
-            adView.setGravity(Gravity.CENTER_HORIZONTAL);
-            LinearLayout layout = (LinearLayout) findViewById(R.id.mainLayout);
-            // Add the adView to it
-            layout.addView(adView);
-        }
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        if (!Global.hasDonated) {
-            AdRequest request = new AdRequest();
-            request.addTestDevice(AdRequest.TEST_EMULATOR);
-            request.addTestDevice("738A7A857DB379FD6814583956ADE5A6");    // My Galaxy Nexus
-            adView.loadAd(request);
-        }
     }
 
     public void makeToast(String says, Boolean isLong) {
@@ -113,7 +89,6 @@ public class TheActivity extends Activity implements CompoundButton.OnCheckedCha
         }
     }
 
-
     @Override
     protected void onStop() {
         Prefs.pushPrefs();
@@ -122,11 +97,7 @@ public class TheActivity extends Activity implements CompoundButton.OnCheckedCha
 
     @Override
     protected void onDestroy() {
-        Prefs.pushPrefs();
         super.onDestroy();
-        if (adView != null) {
-            adView.destroy();
-        }
     }
 
 }

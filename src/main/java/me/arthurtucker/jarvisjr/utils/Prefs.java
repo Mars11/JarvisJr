@@ -14,49 +14,45 @@ public class Prefs {
     public static SharedPreferences mPrefs;
     public static SharedPreferences.Editor mPrefsEditor;
 
-    public static void startPrefs(Context context) {
+    public static void restorePrefs(Context context) {
         // Restoring Preferences
         mPrefs = PreferenceManager.getDefaultSharedPreferences(context);
 
-        syncPrefs();
+        pullPrefs();
     }
 
-    public static void syncPrefs() {
-        Global.isSpeechEnabled  = mPrefs.getBoolean("controlsEnabled", false);
-        Global.voiceQuality     = mPrefs.getString("voicequality", "0");
+    public static void pullPrefs() {
+        Log.d(TAG, "Updating variables from preferences.");
+        Global.isSpeechEnabled  = mPrefs.getBoolean("isSpeechEnabled", false);
+        Global.voiceQuality     = mPrefs.getString("voiceQuality", "0");
 
-        Global.isQTEnabled      = mPrefs.getBoolean("quietenable", false);
-        Global.startQTHour      = mPrefs.getInt("quietstarth", 0);
-        Global.startQTMin       = mPrefs.getInt("quietstartm", 0);
-        Global.isQTStartEnabled = mPrefs.getBoolean("quiettimestartenabled", false);
-        Global.endQTHour        = mPrefs.getInt("quietendh", 0);
-        Global.endQTMin         = mPrefs.getInt("quietendm", 0);
-        Global.isQTEndEnabled   = mPrefs.getBoolean("quiettimeendenabled", false);
+        Global.isQTEnabled      = mPrefs.getBoolean("isQTEnabled", false);
+        Global.startQTHour      = mPrefs.getInt("startQTHour", 0);
+        Global.startQTMin       = mPrefs.getInt("startQTMin", 0);
+        Global.isQTStartEnabled = mPrefs.getBoolean("isQTStartEnabled", false);
+        Global.endQTHour        = mPrefs.getInt("endQTHour", 0);
+        Global.endQTMin         = mPrefs.getInt("endQTMin", 0);
+        Global.isQTEndEnabled   = mPrefs.getBoolean("isQTEndEnabled", false);
 
-        Global.isSmsEnabled     = mPrefs.getBoolean("textenable", false);
-        Global.isSmsAuthEnabled = mPrefs.getBoolean("textsenderenable", false);
-        Global.isSmsBodyEnabled = mPrefs.getBoolean("textbodyenable", false);
+        Global.isSmsEnabled     = mPrefs.getBoolean("isSmsEnabled", false);
+        Global.isSmsAuthEnabled = mPrefs.getBoolean("isSmsAuthEnabled", false);
+        Global.isSmsBodyEnabled = mPrefs.getBoolean("isSmsBodyEnabled", false);
 
-        Global.isBatFullEnabled = mPrefs.getBoolean("batteryfull", false);
+        Global.isBatFullEnabled = mPrefs.getBoolean("isBatFullEnabled", false);
     }
 
     public static void pushPrefs() {
-        Log.d(TAG, "Prefs running updatePrefs()");
+        Log.d(TAG, "Overriding old preferences.");
         mPrefsEditor = mPrefs.edit();
-        //mPrefsEditor.putBoolean("hasdonated", Global.hasDonated);
-        mPrefsEditor.putBoolean("controlsEnabled",  Global.isSpeechEnabled);
-        mPrefsEditor.putInt(    "quietstarth",      Global.startQTHour);
-        mPrefsEditor.putInt(    "quietstartm",      Global.startQTMin);
-        mPrefsEditor.putBoolean("quiettimestartenabled", Global.isQTStartEnabled);
-        mPrefsEditor.putInt(    "quietendh",        Global.endQTHour);
-        mPrefsEditor.putInt(    "quietendm",        Global.endQTMin);
-        mPrefsEditor.putBoolean("quiettimeendenabled", Global.isQTEndEnabled);
+        mPrefsEditor.putBoolean("isSpeechEnabled",  Global.isSpeechEnabled);
+        mPrefsEditor.putInt(    "startQTHour",      Global.startQTHour);
+        mPrefsEditor.putInt(    "startQTMin",       Global.startQTMin);
+        mPrefsEditor.putBoolean("isQTStartEnabled", Global.isQTStartEnabled);
+        mPrefsEditor.putInt(    "endQTHour",        Global.endQTHour);
+        mPrefsEditor.putInt(    "endQTMin",         Global.endQTMin);
+        mPrefsEditor.putBoolean("isQTEndEnabled",   Global.isQTEndEnabled);
 
         // Commit the edits!
         mPrefsEditor.apply();
-    }
-
-    public static void clearPrefs() {
-        mPrefsEditor.clear();
     }
 }

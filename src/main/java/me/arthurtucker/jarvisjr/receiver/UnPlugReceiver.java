@@ -17,7 +17,7 @@ public class UnPlugReceiver extends BroadcastReceiver {
     private static final String TAG = "UnPlugReceiver";
     @Override
     public void onReceive(Context context, Intent intent) {
-        Prefs.startPrefs(context);
+        Prefs.restorePrefs(context);
         Intent powerIntent = new Intent(context, PowerService.class);
         Log.d(TAG, "powerServiceStarted = "+Global.isPowerServiceStarted);
         if (Global.isPowerServiceStarted) {

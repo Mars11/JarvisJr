@@ -31,7 +31,7 @@ public class BatteryReceiver extends BroadcastReceiver {
         Global.isBatCharged = (status == BatteryManager.BATTERY_STATUS_FULL);
         if (Global.isBatFullEnabled && Global.isBatCharged && !saidCharged) {
             Log.i(TAG, "Battery charged");
-            Prefs.startPrefs(context);
+            Prefs.restorePrefs(context);
             String msg          = "Your battery is full.";
             Intent speechIntent = new Intent(context, SpeechService.class);
             speechIntent.putExtra("inmsg", msg);
